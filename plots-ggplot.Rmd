@@ -1,0 +1,25 @@
+---
+title: "plots-ggplot"
+author: "Ricky Fong"
+date: "20/06/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(here)
+
+```
+
+```{r First part}
+
+ca_np <- read_csv(here("data", "ca_np.csv"))
+ci_np <- read_excel(here("data", "ci_np.xlsx"))
+gg_base + geom_col()
+gg_base + geom_area()
+gg_base + geom_line(color = "blue", linetype = "dashed")
+gg_base + geom_col(aes(fill = visitors))
+```
+
