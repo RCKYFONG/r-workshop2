@@ -12,7 +12,7 @@ library(readxl)
 library(here)
 library(skimr)
 library(kableExtra)
-lobsters <- read_xlsx(here("data/lobsters.xlsx"), skip = 4)
+lobsters <- read_xlsx(here("data/lobsters2.xlsx"), skip = 4)
 ```
 
 ```{r}
@@ -47,8 +47,14 @@ siteyear_summary
 siteyear_summary %>%
   kable()
 
-
+siteyear_median_summary <- lobsters %>%
+  group_by(site, year) %>%
+  summarise(median_size_mm = median(size_mm, na.rm=TRUE))
+ggplot(data = siteyear_median_summary, aes(x = year, y = median_size_mm, color = site)) + geom_line()
+ggsave(here("figures", "lobsters-line.png"))
+ggplot(data = siteyear_median_summary, aes(x = year, y = median_size_mm)) + geom_col() + facet_wrap(~site)
+ggsave(here("figures", "lobsters-col.png"))
 ```
 
-"There are 'r nrow(lobsters)' total lobsters included in this report"
+"There are #r nrow(lobsters)# total lobsters included in this report"
 
