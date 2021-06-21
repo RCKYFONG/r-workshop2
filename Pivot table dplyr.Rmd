@@ -1,0 +1,54 @@
+---
+title: "pivot_lobster"
+author: "Ricky Fong"
+date: "21/06/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(here)
+library(skimr)
+library(kableExtra)
+lobsters <- read_xlsx(here("data/lobsters.xlsx"), skip = 4)
+```
+
+```{r}
+skimr::skim(lobsters)
+skim(lobsters)
+lobsters %>% 
+  group_by(year) %>% 
+  summarize(count_by_year = n())
+lobsters %>%
+  summarize(count_total = n())
+
+lobsters %>%
+  group_by(year)
+
+lobsters %>%
+  group_by(site, year) %>%
+  summarise(count_by_siteyear = n())
+
+lobsters %>%
+  group_by(site, year) %>%
+  summarise(count_by_siteyear = n(),
+            mean_size_mm = mean(size_mm))
+
+siteyear_summary <- lobsters %>%
+  group_by(site, year) %>%
+  summarise(count_by_siteyear = n(),
+            mean_size_mm = mean(size_mm, na.rm=TRUE),
+            sd_size_mm = sd(size_mm, na.rm=TRUE))
+
+siteyear_summary
+
+siteyear_summary %>%
+  kable()
+
+
+```
+
+"There are 'r nrow(lobsters)' total lobsters included in this report"
+
